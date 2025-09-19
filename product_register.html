@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sahan Vimukthi - Tour Package Registration</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+  <style>
+    .error-panel {
+      background-color: #ffe6e6;
+      border-left: 4px solid red;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tour Service Package Registration</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="honesty.html">Honesty</a>
+      <a href="product_register.html">Register Package</a>
+      <a href="reflection.html">Reflection</a>
+    </nav>
+  </header>
+
+  <main>
+    <form name="signup" id="signup" method="POST" action="https://httpbin.org/post" onsubmit="return validateForm();">
+      <label for="productId">Package code (8 digits)</label>
+      <input type="text" id="productId" name="productId" required />
+
+      <label for="description">Package Description (min 20 characters)</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="price">Package Price (1–999 USD)</label>
+      <input type="text" id="price" name="price" required />
+
+      <label for="username">Username (starts with letter, ≥4 characters)</label>
+      <input type="text" id="username" name="username" required />
+
+      <fieldset>
+        <legend>Package Availability Status (select at least one)</legend>
+        <label><input type="checkbox" name="status" value="New Package" /> New Package</label><br />
+        <label><input type="checkbox" name="status" value="Customized Package" /> Customized Package</label><br />
+        <label><input type="checkbox" name="status" value="DIscounted Package" /> Discounted Package</label>
+      </fieldset>
+
+      <label for="email">Convenient Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <!-- hidden Fields -->
+      <input type="hidden" name="FullName" id="FullName" value="Sahan Vimukthi" />
+      <input type="hidden" name="studentId" id="studentId" value="178061230" />
+
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+
+      <div id="errorPanel" class="error-panel hidden"></div>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sahan Vimukthi | <a href="https://github.com/sahannn23/WEB222assignment6" target="_blank">GitHub Repository</a></p>
+  </footer>
+
+  <script>
+    function validateForm() {
+      const errors = [];
+      const productId = document.getElementById("productId").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const price = document.getElementById("price").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const checkboxes = document.querySelectorAll("input[name='status']:checked");
+
+      if (!/^\d{8}$/.test(productId)) {
+        errors.push("Package ID must be exactly 8 digits.");
+      }
+
+      if (description.length < 20) {
+        errors.push("Package Description must contain at least 20 characters.");
+      }
+
+      if (!/^\d+$/.test(price) || price < 1 || price > 999) {
+        errors.push("Price must be a digit between 1 and 999. Decimal not allowed.");
+      }
+
+      if (!/^[A-Za-z][A-Za-z0-9]{3,}$/.test(username)) {
+        errors.push("Username must start with a letter and be at least 4 characters long.");
+      }
+
+      if (checkboxes.length === 0) {
+        errors.push("At least one Package Status must be selected.");
+      }
+
+      const errorPanel = document.getElementById("errorPanel");
+      if (errors.length > 0) {
+        errorPanel.innerHTML = "<strong>Please fix the following errors:</strong><ul><li>" + errors.join("</li><li>") + "</li></ul>";
+        errorPanel.classList.remove("hidden");
+        return false;
+      } else {
+        alert("Package submitted successfully!");
+        return true;
+      }
+    }
+  </script>
+</body>
+</html>
